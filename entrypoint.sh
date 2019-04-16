@@ -44,7 +44,7 @@ fi
 
 current_branch=$(git branch | grep "^*" | awk '{print $2}')
 echo "DEBUG: current branch = $current_branch"
-# if [ "$current_branch" = "master" ];then
+if [ "$current_branch" = "master" ];then
 
 	last_tag_number=$(git tag -l | sort -V | tail -n 1 | cut -c 2- | cut -d '.' -f1)
 
@@ -78,7 +78,7 @@ echo "DEBUG: current branch = $current_branch"
 
 		first_number_version=$(echo $VERSION | cut -c 2)
 		if [ $first_number_version -lt $last_tag_number ];then
-			echo "the env var $VERSION is less than last tag"
+			echo "the env var $VERSION is less than last tag: $last_tag_number"
 			exit 1
 		fi
 
@@ -87,7 +87,7 @@ echo "DEBUG: current branch = $current_branch"
 		request_create_release
 	fi
 
-# else
-# 	echo "This Action run only in master branch"
-# 	exit 0
-# fi
+else
+	echo "This Action run only in master branch"
+	exit 0
+fi
